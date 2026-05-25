@@ -1,4 +1,4 @@
-# Agent F Firmware Skill
+# Agent F Firmware and Embedded Development Skill
 
 ![Agent F PlatformIO-MCP](assets/AgentF-PlatformIO-MCP.png)
 
