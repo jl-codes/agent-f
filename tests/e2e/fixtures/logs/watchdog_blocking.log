@@ -1,0 +1,7 @@
+Agent F fixture boot
+Starting sensor init...
+Starting long blocking setup section
+E (7420) task_wdt: Task watchdog got triggered.
+E (7420) task_wdt: Tasks currently running:
+E (7420) task_wdt: CPU 0: loopTask
+E (7420) task_wdt: Aborting.

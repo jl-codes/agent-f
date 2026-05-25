@@ -1,0 +1,8 @@
+      .-""""-.
+     /  .--.  \        AGENT F
+    |  (o  o)  |       PlatformIO-MCP Firmware Agent
+    |   \__/   |       > build   > flash   > monitor
+     \ .____. /        > diagnose > repair > report
+      /|_  _|\         Cute face, serious firmware ops.
+     /_/ \/ \_\
+       /_/\_\

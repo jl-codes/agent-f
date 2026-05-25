@@ -1,0 +1,8 @@
+version: 1
+interface:
+  display_name: Agent F Firmware
+  short_description: PlatformIO firmware mission specialist
+  default_prompt: >
+    Use Agent F to inspect PlatformIO configuration, build firmware, flash the
+    target board, monitor serial output, diagnose failures, and apply safe
+    repairs with concise mission reports.
