@@ -21,9 +21,12 @@ from tests.e2e.runner_utils import load_fixture_text
 from tests.e2e.runner_utils import resolve_live_runner
 
 ROOT_DIR = Path(__file__).resolve().parents[2]
+README_PATH = ROOT_DIR / "README.md"
 SKILL_ROOT_PATH = ROOT_DIR / "SKILL.md"
 PACKAGED_SKILL_PATH = ROOT_DIR / ".agents" / "skills" / "agent-f-firmware" / "SKILL.md"
 PACKAGED_SKILL_DIR = PACKAGED_SKILL_PATH.parent
+PACKAGED_BANNER_PATH = PACKAGED_SKILL_DIR / "assets" / "agent-f-banner.txt"
+README_IMAGE_PATH = ROOT_DIR / "assets" / "AgentF-PlatformIO-MCP.png"
 FIXTURE_PROJECT_DIR = ROOT_DIR / "tests" / "e2e" / "fixtures" / "project_minimal"
 FIXTURE_LOG_DIR = ROOT_DIR / "tests" / "e2e" / "fixtures" / "logs"
 
@@ -71,7 +74,7 @@ class AgentFSkillPackageE2ETest(unittest.TestCase):
     def test_packaged_skill_assets_and_references_exist(self) -> None:
         required_paths = [
             PACKAGED_SKILL_DIR / "AGENTS.md",
-            PACKAGED_SKILL_DIR / "assets" / "agent-f-banner.txt",
+            PACKAGED_BANNER_PATH,
             PACKAGED_SKILL_DIR / "scripts" / "detect_board_profile.py",
             PACKAGED_SKILL_DIR / "scripts" / "summarize_serial_log.py",
             PACKAGED_SKILL_DIR / "references" / "esp32_strapping_pins.md",
@@ -98,6 +101,20 @@ class AgentFSkillPackageE2ETest(unittest.TestCase):
             )
             self.assertEqual(result.returncode, 0, msg=result.stderr)
             self.assertIn("usage:", result.stdout.lower())
+
+    def test_codex_pet_banner_and_readme_contract(self) -> None:
+        banner_text = PACKAGED_BANNER_PATH.read_text(encoding="utf-8")
+        readme_text = README_PATH.read_text(encoding="utf-8")
+
+        self.assertTrue(README_IMAGE_PATH.exists(), f"Missing README image asset: {README_IMAGE_PATH}")
+        self.assertIn("![Agent F PlatformIO-MCP](assets/AgentF-PlatformIO-MCP.png)", readme_text)
+        self.assertIn("AGENT F", banner_text)
+        self.assertIn("PlatformIO-MCP Firmware Agent", banner_text)
+        self.assertIn("> build", banner_text)
+        self.assertIn("> repair", banner_text)
+        self.assertGreaterEqual(len(banner_text.splitlines()), 20)
+        self.assertIn('.-""""-.', banner_text)
+        self.assertIn("/____\\", banner_text)
 
 
 class AgentFMissionOfflineE2ETest(unittest.TestCase):
