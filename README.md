@@ -8,33 +8,43 @@ Agent F is a firmware-focused Codex skill for PlatformIO projects. It exists to 
 
 Agent F is opinionated about preflight checks, serial-log triage, and concise reporting so teams can move from "board not responding" to a verified fix faster.
 
+**AGENT F**  
+`PlatformIO-MCP Firmware Agent`  
+Mission profile: `build -> flash -> monitor -> diagnose -> repair`
+
 ```text
-                    .-""""-.
-                 .-"  .--.  "-.
-               .'    /    \    '.
-              /     /_/\/\_\     \
-             ;      \  /\  /      ;
-             |       \/  \/       |
-             |     .-` /\ `-.     |   AGENT F
-             |    /   /  \   \    |   PlatformIO-MCP Firmware Agent
-             ;   |   | /\ |   |   ;   > build   > flash
-              \  |   |/  \|   |  /    > monitor > diagnose
-               '.\    \__/    /.'     > repair  > report
-                 '-._      _.-'
-                     /|  |\
-               _..--' |  | '--.._
-            .-'      /____\      '-.
-          .'        /_/  \_\        '.
-         /      .-'/  /\  \'-._      \
-        ;    .-'  /  /  \  \   '-.    ;
-        |  .'    /__/    \__\     '.  |
-        | /      /  _  _  \        \ |
-        | |     /__/ \/ \__\        | |
-        | |        /_/  \_\         | |
-        | |      .'"  /\  "'.       | |
-        | |_____/___ /  \ ___\______| |
-        |______________________________|
-             /_/                \_\
+                           .-""""-.
+                        .-'  .--.  '-.
+                      .'   .'_  _'.   '.
+                     /    / ( \/ ) \    \
+                    ;    ;   \  /   ;    ;
+                    |    | .-./\/\-.|    |
+                    |    |/  / /\ \ \    |
+                    |    ;  /_/  \_\ ;   |
+                    ;     \   .--.   /   ;
+                     \     '._\__/_.''  /
+                      '.        --      .'
+                        '-._  ____  _.-'
+                            / /_  _\ \
+                      _..--' /  \/  \ '--.._
+                   .-'      /  /\ /\ \      '-.
+                 .'       .'/ /  V  \ \'.      '.
+                /        / /_/|    |\_\ \       \
+               ;        /_/   |    |   \_\       ;
+               |      .-._    |    |    _.-.      |
+               |    .'  _  '-.|    |.-'  _  '.    |
+               |   /   (_)    |    |    (_)   \   |
+               |  ;      __   |    |   __      ;  |
+               |  |   .-`  `-.|    |.-`  `-.   |  |
+               ;  |  /  .--.  \    /  .--.  \  |  ;
+                \ ; ;  /_/\_\  |  |  /_/\_\  ; ; /
+                 \ \|  \    /  |  |  \    /  |/ /
+                  \ \   '._.'  /  \  '._.'   / /
+                   '.\        /____\        /.'
+                     '.___..-'_/\_/\-..___.' 
+                        /___.-'  \/  '-.__\
+                       /_/   .-._/\_.-.   \_\
+                      /_/      /_/\_\      \_\
 ```
 
 ## What is included

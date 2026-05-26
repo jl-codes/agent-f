@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import os
 from pathlib import Path
+import re
 import subprocess
 import unittest
 
@@ -47,6 +48,38 @@ def _base_params() -> dict:
 
 
 class AgentFSkillPackageE2ETest(unittest.TestCase):
+    def _assert_portrait_structure(
+        self,
+        ascii_block: str,
+        *,
+        min_lines: int,
+        context_label: str,
+    ) -> None:
+        lines = [line.rstrip("\n") for line in ascii_block.splitlines() if line.strip()]
+        self.assertGreaterEqual(
+            len(lines),
+            min_lines,
+            f"{context_label}: portrait is too short.",
+        )
+        self.assertLessEqual(
+            max(len(line) for line in lines),
+            110,
+            f"{context_label}: portrait exceeds 110 columns.",
+        )
+        motifs = [
+            '.-""""-.',
+            ".-'  .--.  '-.",
+            "/ ( \\/ ) \\",
+            "'-._  ____  _.-'",
+            r"'.___..-'_/\_/\-..___.'",
+        ]
+        for motif in motifs:
+            self.assertIn(
+                motif,
+                ascii_block,
+                f"{context_label}: missing motif '{motif}'.",
+            )
+
     def test_skill_frontmatter_and_required_directives(self) -> None:
         root_text = SKILL_ROOT_PATH.read_text(encoding="utf-8")
         packaged_text = PACKAGED_SKILL_PATH.read_text(encoding="utf-8")
@@ -108,13 +141,24 @@ class AgentFSkillPackageE2ETest(unittest.TestCase):
 
         self.assertTrue(README_IMAGE_PATH.exists(), f"Missing README image asset: {README_IMAGE_PATH}")
         self.assertIn("![Agent F PlatformIO-MCP](assets/AgentF-PlatformIO-MCP.png)", readme_text)
-        self.assertIn("AGENT F", banner_text)
-        self.assertIn("PlatformIO-MCP Firmware Agent", banner_text)
-        self.assertIn("> build", banner_text)
-        self.assertIn("> repair", banner_text)
-        self.assertGreaterEqual(len(banner_text.splitlines()), 20)
-        self.assertIn('.-""""-.', banner_text)
-        self.assertIn("/____\\", banner_text)
+        self.assertIn("**AGENT F**", readme_text)
+        self.assertIn("`PlatformIO-MCP Firmware Agent`", readme_text)
+        self.assertIn("Mission profile: `build -> flash -> monitor -> diagnose -> repair`", readme_text)
+
+        readme_code_blocks = re.findall(r"```text\n(.*?)\n```", readme_text, flags=re.DOTALL)
+        self.assertGreaterEqual(len(readme_code_blocks), 1, "README must contain a text portrait block.")
+        readme_portrait = readme_code_blocks[0]
+
+        self._assert_portrait_structure(
+            readme_portrait,
+            min_lines=26,
+            context_label="README portrait",
+        )
+        self._assert_portrait_structure(
+            banner_text,
+            min_lines=20,
+            context_label="CLI banner portrait",
+        )
 
 
 class AgentFMissionOfflineE2ETest(unittest.TestCase):
