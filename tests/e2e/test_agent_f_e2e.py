@@ -66,18 +66,29 @@ class AgentFSkillPackageE2ETest(unittest.TestCase):
             110,
             f"{context_label}: portrait exceeds 110 columns.",
         )
-        motifs = [
-            '.-""""-.',
-            ".-'  .--.  '-.",
-            "/ ( \\/ ) \\",
-            "'-._  ____  _.-'",
-            r"'.___..-'_/\_/\-..___.'",
-        ]
-        for motif in motifs:
-            self.assertIn(
-                motif,
-                ascii_block,
-                f"{context_label}: missing motif '{motif}'.",
+        diversity = {ch for ch in "".join(lines) if not ch.isspace()}
+        self.assertGreaterEqual(
+            len(diversity),
+            12,
+            f"{context_label}: portrait character diversity is too low.",
+        )
+
+        pillar_lines = sum(1 for line in lines if "||" in line)
+        self.assertGreaterEqual(
+            pillar_lines,
+            8,
+            f"{context_label}: expected stronger coat/stance geometry (missing '||' pillars).",
+        )
+
+        motif_groups = {
+            "hair": [".--..--.", "( \\/ )", ".-____-."],
+            "collar": ["/ /\\ \\", "|  `-..-'  |", ".- \\/ -."],
+            "coat": [".------------.", ".--------.", "/_/    \\_\\"],
+        }
+        for group_name, options in motif_groups.items():
+            self.assertTrue(
+                any(option in ascii_block for option in options),
+                f"{context_label}: missing {group_name} motif markers.",
             )
 
     def test_skill_frontmatter_and_required_directives(self) -> None:
@@ -151,12 +162,12 @@ class AgentFSkillPackageE2ETest(unittest.TestCase):
 
         self._assert_portrait_structure(
             readme_portrait,
-            min_lines=26,
+            min_lines=40,
             context_label="README portrait",
         )
         self._assert_portrait_structure(
             banner_text,
-            min_lines=20,
+            min_lines=30,
             context_label="CLI banner portrait",
         )
 
